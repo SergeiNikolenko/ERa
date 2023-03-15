@@ -42,4 +42,3 @@ for h in range (0, amount):
 vinastart.close()
 print ('Config files generation is comlete!')
 print ('The vinastart is ready to run!')
-
