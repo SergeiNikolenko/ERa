@@ -35,8 +35,8 @@ params = read_params_from_file(params_filename)
 # Добавьте определение переменных здесь
 tries = int(params.get('tries', 10))
 xtn = int(params.get('exhaustiveness', 8))
-nt = int(params.get('cpu', 16))
-num_mod = int(params.get('num_mod', 1))
+nt = int(params.get('cpu', 8))
+num_mod = int(params.get('num_mod', 20))
 energy_range = int(params.get('energy_range', 20))
 os.chdir(ligand_folder)
 vinastart = open('vinastart.sh', 'w')
@@ -109,6 +109,13 @@ with open("vinastart.sh", "a") as vinastart:
 
 '''def delete_files():
     print("Deleting configuration files...")
+    for filename in glob.glob("./*.cfg"):
+        os.remove(filename)
+
+    print("Deleting output files...")
+    for filename in glob.glob("./*_out.pdbqt"):
+        os.remove(filename)
+    print("Deleting configuration files...")
     for receptor in receptor_names:
         i = 0
         for i in range(0, count):
@@ -149,17 +156,15 @@ with open("vinastart.sh", "a") as vinastart:
         shutil.rmtree(absolute_results_folder)
     else:
         print(f"Results folder '{results_folder}' not found.")
-    print("Results folder deleted.")
+    print("Results folder deleted.")'''
         
 
-# Даем права на выполнение скрипта
 os.chmod('vinastart.sh', 0o755)
-try:
-    # Запуск скрипта vinastart.sh
+subprocess.run('./vinastart.sh', shell=True, check=True)
+
+'''try:
     subprocess.run('./vinastart.sh', shell=True, check=True)
 except KeyboardInterrupt:
     print("Script interrupted by user. Cleaning up files...")
 finally:
     delete_files()'''
-os.chmod('vinastart.sh', 0o755)
-subprocess.run('./vinastart.sh', shell=True, check=True)
