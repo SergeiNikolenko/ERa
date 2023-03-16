@@ -1,11 +1,12 @@
 import os
 import glob
 import subprocess
+import shutil
+
 
 def get_next_folder_name(base_folder, folder_prefix):
     folder_number = 1
     while os.path.exists(os.path.join(base_folder, f"{folder_prefix}{folder_number}")):
-        print(f"Checking if folder '{folder_prefix}{folder_number}' exists...")
         folder_number += 1
     return f"{folder_prefix}{folder_number}"
 
@@ -43,7 +44,6 @@ vinastart.write('#!/bin/bash' + '\n')
 mols = glob.glob('./*.pdbqt')
 count = len(mols)
 h = 1
-print(mols)
 
 # Загрузите имена всех файлов PDBQT рецепторов из папки рецепторов
 os.chdir('../' + receptor_folder)
@@ -63,17 +63,16 @@ for receptor in receptor_names:
             f = open(mols[i])
             NAME = str(mols[i])
             name = (NAME[2:-6])
-            print(name)
             config = open(receptor + "_" + name + '_' + str(t) + '.cfg', 'w')
             config.write('receptor=../' + receptor_folder + '/' + receptor + '.pdbqt' + '\n' + 'ligand=' + name + '.pdbqt' + '\n' + ' ' + '\n' + 'center_x=' + params['cx'] + '\n' + 'center_y=' + params['cy'] + '\n' + 'center_z=' + params['cz'] + '\n' + ' ' + '\n' + 'size_x=' + params['sx'] + '\n' + 'size_y=' + params['sy'] + '\n' + 'size_z=' + params['sz'] + '\n' + 'exhaustiveness=' + str(xtn) + '\n' + 'num_modes=20' + '\n' + 'energy_range=20' + '\n' + 'cpu=' + str(nt) + '\n' + 'out=' + receptor + '_' + name + '_' + str(t) + '_out.pdbqt')
-            print('Config file for ' + mols[i] + ' ' + 'is written!')
+            #print('Config file for ' + mols[i] + ' ' + 'is written!')
             vinastart.write('vina' + ' ' + '--config' + ' ' + receptor + '_' + name + '_' + str(t) + '.cfg' + ' >> ' + combined_log_file + '\n')
-            print('Run command for ' + mols[i] + ' ' + 'is written to vinastart!')
+            #print('Run command for ' + mols[i] + ' ' + 'is written to vinastart!')
             t += 1
 vinastart.close()
 print('Config files generation is complete!')
 print('The vinastart is ready to run!')
-'''
+
 # Добавление команды удаления файлов конфигурации в файл vinastart.sh
 with open("vinastart.sh", "a") as vinastart:
     vinastart.write("echo 'Deleting configuration files...'\n")
@@ -87,7 +86,7 @@ with open("vinastart.sh", "a") as vinastart:
                 config_file = receptor + "_" + name + '_' + str(t) + '.cfg'
                 vinastart.write(f"rm {config_file}\n")
                 t += 1
-    vinastart.write("echo 'Configuration files deleted.'\n")'''
+    vinastart.write("echo 'Configuration files deleted.'\n")
 # Создание папки resultN
 results_folder = get_next_folder_name(os.path.dirname(os.path.abspath(__file__)), "result")
 os.makedirs(os.path.join(os.path.dirname(os.path.abspath(__file__)), results_folder))
@@ -108,8 +107,59 @@ with open("vinastart.sh", "a") as vinastart:
     vinastart.write(f"mv {combined_log_file} ../{results_folder}/\n")
     vinastart.write("echo 'Result files and combined log moved to results folder.'\n")
 
+'''def delete_files():
+    print("Deleting configuration files...")
+    for receptor in receptor_names:
+        i = 0
+        for i in range(0, count):
+            t = 1
+            while t <= tries:
+                NAME = str(mols[i])
+                name = (NAME[2:-6])
+                config_file = receptor + "_" + name + '_' + str(t) + '.cfg'
+                if os.path.exists(config_file):
+                    os.remove(config_file)
+                t += 1
+    print("Configuration files deleted.")
+    
+    print("Deleting result files...")
+    for receptor in receptor_names:
+        i = 0
+        for i in range(0, count):
+            t = 1
+            while t <= tries:
+                NAME = str(mols[i])
+                name = (NAME[2:-6])
+                output_file = receptor + "_" + name + '_' + str(t) + '_out.pdbqt'
+                if os.path.exists(output_file):
+                    os.remove(output_file)
+                t += 1
+    print("Result files deleted.")
+    
+    print(f"Deleting combined log file '{combined_log_file}'...")
+    if os.path.exists(combined_log_file):
+        os.remove(combined_log_file)
+    print("Combined log file deleted.")
+    
+    print(f"Deleting results folder '{results_folder}'...")
+
+    os.chdir('..')
+    absolute_results_folder = os.path.abspath(results_folder)
+    if os.path.exists(absolute_results_folder):
+        shutil.rmtree(absolute_results_folder)
+    else:
+        print(f"Results folder '{results_folder}' not found.")
+    print("Results folder deleted.")
+        
+
 # Даем права на выполнение скрипта
 os.chmod('vinastart.sh', 0o755)
-
-# Запуск скрипта vinastart.sh
+try:
+    # Запуск скрипта vinastart.sh
+    subprocess.run('./vinastart.sh', shell=True, check=True)
+except KeyboardInterrupt:
+    print("Script interrupted by user. Cleaning up files...")
+finally:
+    delete_files()'''
+os.chmod('vinastart.sh', 0o755)
 subprocess.run('./vinastart.sh', shell=True, check=True)

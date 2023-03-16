@@ -1,11 +1,11 @@
-tries = 1
+tries = 10
 exhaustiveness = 8 
 cpu = 16
 
-cx=29.431
-cy=-1.451
-cz=23.139
+cx=29.893
+cy=-0.429
+cz=23.250
 
-sx=26
-sy=26
-sz=26
+sx=20
+sy=20
+sz=18

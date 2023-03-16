@@ -2,3 +2,5 @@
 *.cfg
 vinastart.sh
 .vscode
+result*
+GUI
