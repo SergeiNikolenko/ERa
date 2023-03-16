@@ -33,11 +33,11 @@ params_filename = 'params.txt'
 params = read_params_from_file(params_filename)
 
 # Добавьте определение переменных здесь
-tries = int(params.get('tries', 1))
+tries = int(params.get('tries', 10))
 xtn = int(params.get('exhaustiveness', 8))
 nt = int(params.get('cpu', 16))
-
-
+num_mod = int(params.get('num_mod', 1))
+energy_range = int(params.get('energy_range', 20))
 os.chdir(ligand_folder)
 vinastart = open('vinastart.sh', 'w')
 vinastart.write('#!/bin/bash' + '\n')
@@ -64,7 +64,7 @@ for receptor in receptor_names:
             NAME = str(mols[i])
             name = (NAME[2:-6])
             config = open(receptor + "_" + name + '_' + str(t) + '.cfg', 'w')
-            config.write('receptor=../' + receptor_folder + '/' + receptor + '.pdbqt' + '\n' + 'ligand=' + name + '.pdbqt' + '\n' + ' ' + '\n' + 'center_x=' + params['cx'] + '\n' + 'center_y=' + params['cy'] + '\n' + 'center_z=' + params['cz'] + '\n' + ' ' + '\n' + 'size_x=' + params['sx'] + '\n' + 'size_y=' + params['sy'] + '\n' + 'size_z=' + params['sz'] + '\n' + 'exhaustiveness=' + str(xtn) + '\n' + 'num_modes=20' + '\n' + 'energy_range=20' + '\n' + 'cpu=' + str(nt) + '\n' + 'out=' + receptor + '_' + name + '_' + str(t) + '_out.pdbqt')
+            config.write('receptor=../' + receptor_folder + '/' + receptor + '.pdbqt' + '\n' + 'ligand=' + name + '.pdbqt' + '\n' + ' ' + '\n' + 'center_x=' + params['cx'] + '\n' + 'center_y=' + params['cy'] + '\n' + 'center_z=' + params['cz'] + '\n' + ' ' + '\n' + 'size_x=' + params['sx'] + '\n' + 'size_y=' + params['sy'] + '\n' + 'size_z=' + params['sz'] + '\n' + 'exhaustiveness=' + str(xtn) + '\n' + 'num_modes=' + str(num_mod) + '\n' + 'energy_range=' + str(energy_range) + '\n' + 'cpu=' + str(nt) + '\n' + 'out=' + receptor + '_' + name + '_' + str(t) + '_out.pdbqt')
             #print('Config file for ' + mols[i] + ' ' + 'is written!')
             vinastart.write('vina' + ' ' + '--config' + ' ' + receptor + '_' + name + '_' + str(t) + '.cfg' + ' >> ' + combined_log_file + '\n')
             #print('Run command for ' + mols[i] + ' ' + 'is written to vinastart!')
