@@ -66,7 +66,7 @@ for receptor in receptor_names:
             config = open(receptor + "_" + name + '_' + str(t) + '.cfg', 'w')
             config.write('receptor=../' + receptor_folder + '/' + receptor + '.pdbqt' + '\n' + 'ligand=' + name + '.pdbqt' + '\n' + ' ' + '\n' + 'center_x=' + params['cx'] + '\n' + 'center_y=' + params['cy'] + '\n' + 'center_z=' + params['cz'] + '\n' + ' ' + '\n' + 'size_x=' + params['sx'] + '\n' + 'size_y=' + params['sy'] + '\n' + 'size_z=' + params['sz'] + '\n' + 'exhaustiveness=' + str(xtn) + '\n' + 'num_modes=' + str(num_mod) + '\n' + 'energy_range=' + str(energy_range) + '\n' + 'cpu=' + str(nt) + '\n' + 'out=' + receptor + '_' + name + '_' + str(t) + '_out.pdbqt')
             #print('Config file for ' + mols[i] + ' ' + 'is written!')
-            vinastart.write('vina' + ' ' + '--config' + ' ' + receptor + '_' + name + '_' + str(t) + '.cfg' + ' >> ' + combined_log_file + '\n')
+            vinastart.write('smina.static' + ' ' + '--config' + ' ' + receptor + '_' + name + '_' + str(t) + '.cfg' + ' >> ' + combined_log_file + '\n')
             #print('Run command for ' + mols[i] + ' ' + 'is written to vinastart!')
             t += 1
 vinastart.close()
