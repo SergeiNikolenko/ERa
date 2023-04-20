@@ -5,3 +5,6 @@ vinastart.sh
 result*
 GUI
 *_out.pdbqt
+*.zip
+MD/
+7u7j_complexes/
