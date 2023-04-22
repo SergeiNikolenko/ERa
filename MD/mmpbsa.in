@@ -1,0 +1,13 @@
+&general
+forcefields="oldff/leaprc.ff99SBildn",leaprc.gaff"
+startframe=40000, endframe=45000, interval=10,
+/
+&gb
+intdiel=4,
+extdiel=80.0
+igb=5, saltcon=0.150,
+/
+&decomp
+idecomp=2, dec_verbose=1,
+print_res="within 8"
+/
