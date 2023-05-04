@@ -17,7 +17,7 @@ lmol = plf.Molecule.from_mda(lig)
 pmol = plf.Molecule.from_mda(prot)
 
 fp_l = plf.Fingerprint()
-fp_l.run(u.trajectory[40000:45000:10], lig, prot)
+fp_l.run(u.trajectory[35000:40000:10], lig, prot)
 df_l = fp_l.to_dataframe(return_atoms=True)
 df=fp_l.to_dataframe(return_atoms=False)
 D=df.groupby(level=["ligand", "protein"], axis=1, sort=False).sum().astype(bool).mean()
