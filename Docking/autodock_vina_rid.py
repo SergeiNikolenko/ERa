@@ -107,64 +107,6 @@ with open("vinastart.sh", "a") as vinastart:
     vinastart.write(f"mv {combined_log_file} ../{results_folder}/\n")
     vinastart.write("echo 'Result files and combined log moved to results folder.'\n")
 
-'''def delete_files():
-    print("Deleting configuration files...")
-    for filename in glob.glob("./*.cfg"):
-        os.remove(filename)
-
-    print("Deleting output files...")
-    for filename in glob.glob("./*_out.pdbqt"):
-        os.remove(filename)
-    print("Deleting configuration files...")
-    for receptor in receptor_names:
-        i = 0
-        for i in range(0, count):
-            t = 1
-            while t <= tries:
-                NAME = str(mols[i])
-                name = (NAME[2:-6])
-                config_file = receptor + "_" + name + '_' + str(t) + '.cfg'
-                if os.path.exists(config_file):
-                    os.remove(config_file)
-                t += 1
-    print("Configuration files deleted.")
-    
-    print("Deleting result files...")
-    for receptor in receptor_names:
-        i = 0
-        for i in range(0, count):
-            t = 1
-            while t <= tries:
-                NAME = str(mols[i])
-                name = (NAME[2:-6])
-                output_file = receptor + "_" + name + '_' + str(t) + '_out.pdbqt'
-                if os.path.exists(output_file):
-                    os.remove(output_file)
-                t += 1
-    print("Result files deleted.")
-    
-    print(f"Deleting combined log file '{combined_log_file}'...")
-    if os.path.exists(combined_log_file):
-        os.remove(combined_log_file)
-    print("Combined log file deleted.")
-    
-    print(f"Deleting results folder '{results_folder}'...")
-
-    os.chdir('..')
-    absolute_results_folder = os.path.abspath(results_folder)
-    if os.path.exists(absolute_results_folder):
-        shutil.rmtree(absolute_results_folder)
-    else:
-        print(f"Results folder '{results_folder}' not found.")
-    print("Results folder deleted.")'''
-        
 
 os.chmod('vinastart.sh', 0o755)
 subprocess.run('./vinastart.sh', shell=True, check=True)
-
-'''try:
-    subprocess.run('./vinastart.sh', shell=True, check=True)
-except KeyboardInterrupt:
-    print("Script interrupted by user. Cleaning up files...")
-finally:
-    delete_files()'''
