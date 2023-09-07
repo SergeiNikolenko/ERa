@@ -1,6 +1,3 @@
-I visited the GitHub repository you provided, but unfortunately, it doesn't have much information about the project itself. The repository is named "ERa" and contains Python and Jupyter Notebook files. However, there is no README or description to give context about what the project is for.
-
-Given that, I can help you draft a README file for your diploma project. Since you're in the field of medicinal chemistry and have programming skills, I assume the project might be related to that. Here's a sample README:
 
 ---
 
